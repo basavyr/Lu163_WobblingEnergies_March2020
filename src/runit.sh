@@ -1,2 +1,2 @@
-g++ -std=c++17 expData.cc main.cpp
+g++ -std=c++17 expData.cc energyFormulas.cc main.cpp
 ./a.out
