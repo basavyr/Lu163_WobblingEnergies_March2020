@@ -1,0 +1,66 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      1563,         56]
+NotebookOptionsPosition[      1144,         40]
+NotebookOutlinePosition[      1480,         55]
+CellTagsIndexPosition[      1437,         52]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["", "163"], TraditionalForm]], "Title",
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "7b6b7d10-a303-460e-9f0d-f966b6d6a0c3"],
+ "Lu - March 2020\nEnergies "
+}], "Chapter",
+ CellChangeTimes->{{3.793933611768902*^9, 
+  3.7939336478633003`*^9}},ExpressionUUID->"26f56791-2ea8-459f-b0ff-\
+4d005dcc648c"],
+
+Cell["Fitting the experimental energies", "Subsection",
+ CellChangeTimes->{{3.793933650235569*^9, 
+  3.793933655791788*^9}},ExpressionUUID->"7bd96b29-9b5a-491c-b7dc-\
+daa85b9582ee"]
+}, Open  ]]
+},
+WindowSize->{896, 1075},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 364, 10, 131, "Chapter",ExpressionUUID->"26f56791-2ea8-459f-b0ff-4d005dcc648c"],
+Cell[947, 34, 181, 3, 54, "Subsection",ExpressionUUID->"7bd96b29-9b5a-491c-b7dc-daa85b9582ee"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
