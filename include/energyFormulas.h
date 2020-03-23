@@ -61,6 +61,12 @@ public:
     static double C_term(double spin, double oddSpin, double particlePotential, double iZero, double beta, double gamma);
     static double omegaFrequency(int n, double spin, double oddSpin, double particlePotential, double iZero, double beta, double gamma);
     static double energyExpression(int n1, int n2, double spin, double oddSpin, double particlePotential, double iZero, double beta, double gamma);
+
+    //the excitation energies for each triaxial band (normalized to the bandhead state in TSD1)
+    static double TSD1(double spin, double particlePotential, double iZero, double beta, double gamma);
+    static double TSD2(double spin, double particlePotential, double iZero, double beta, double gamma);
+    static double TSD3(double spin, double particlePotential, double iZero, double beta, double gamma);
+    static double TSD4(double spin, double particlePotential, double iZero, double beta, double gamma);
 };
 
 #endif // ENERGYFORMULAS_HH
