@@ -10,9 +10,10 @@
 
 class ExperimentalData
 {
+
 public:
     static constexpr double yrastSpin = 6.5;
-    
+
     //the odd particle's a.m.
     static constexpr double oddSpin_1 = 6.5;
     static constexpr double oddSpin_2 = 4.5;

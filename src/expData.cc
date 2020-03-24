@@ -44,9 +44,7 @@ ExperimentalData::~ExperimentalData()
     // ExperimentalData::pairPrinter(secondBand, spin2, tsd2);
     // ExperimentalData::pairPrinter(thirdBand, spin3, tsd3);
     // ExperimentalData::pairPrinter(fourthBand, spin4, tsd4);
-    std::cout
-        << "Class object finished with status: " << OK;
-    std::cout << std::endl;
+    // std::cout<< "Class object finished with status: " << OK;
 }
 
 std::vector<double> ExperimentalData::init_band1()

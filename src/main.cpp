@@ -1,20 +1,27 @@
 #include "../include/expData.h"
 #include "../include/energyFormulas.h"
+#include "../include/expData.h"
+#include "../include/fitData.h"
 
 int main()
 {
     auto nucleus = std::make_unique<ExperimentalData>();
-    // auto spins = nucleus->spins;
-    // auto energies = nucleus->energies;
-    // EnergyFormulas::moiTuple x(50, 0.38, 19);
-    // std::cout << x.A1 << " " << x.A2 << " " << x.A3 << "\n";
-    // for (double i = 0.5; i < 52.5; i += 2.0)
-    // {
-    //     auto x = new EnergyFormulas::OmegaTuple(i, 6.5, 0.5, 99, 0.38, 19);
-    //     std::cout << x->Omega1 << " " << x->Omega2 << "\n";
-    // }
-    std::cout << EnergyFormulas::TSD1(14.5, 0.5, 99, 0.38, 19) << "\n";
-    std::cout << EnergyFormulas::TSD2(14.5, 0.5, 99, 0.38, 19) << "\n";
-    std::cout << EnergyFormulas::TSD3(14.5, 0.5, 99, 0.38, 19) << "\n";
-    std::cout << EnergyFormulas::TSD4(14.5, 0.5, 99, 0.38, 19) << "\n";
+    auto spins = nucleus->spins;
+    auto energies = nucleus->energies;
+    std::vector<double> TheoreticalEnergies;
+    FitData::paramSet bestParams;
+
+    //compute the duration of a process
+    auto duration = [](auto start, auto end) {
+        auto result = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        return static_cast<double>(result / 1000.0);
+    };
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    FitData::SearchMinimum_RMS(*nucleus, bestParams, 0.38, 17);
+    auto endTime = std::chrono::high_resolution_clock::now();
+    std::cout
+        << bestParams.I0 << " " << bestParams.V << " " << bestParams.E_RMS << "\n";
+    std::cout << "s= " << bestParams.I0 * bestParams.V << "\n";
+    std::cout << "Process took... " << duration(startTime, endTime) << " s\n";
 }

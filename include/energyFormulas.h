@@ -23,8 +23,8 @@ public:
         double Omega2;
         OmegaTuple(double spin, double oddSpin, double particlePotential, double iZero, double beta, double gamma)
         {
-            Omega1 = EnergyFormulas::omegaFrequency(1, spin, oddSpin, particlePotential, iZero, beta, gamma);
-            Omega2 = EnergyFormulas::omegaFrequency(2, spin, oddSpin, particlePotential, iZero, beta, gamma);
+            Omega1 = EnergyFormulas::omegaFrequency(2, spin, oddSpin, particlePotential, iZero, beta, gamma);
+            Omega2 = EnergyFormulas::omegaFrequency(1, spin, oddSpin, particlePotential, iZero, beta, gamma);
         }
     };
     struct moiTuple
