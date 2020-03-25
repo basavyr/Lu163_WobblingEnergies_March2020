@@ -33,7 +33,7 @@ double FitData::RMS_Calculation(std::vector<double> &expData, std::vector<double
             id = size + 1;
         }
     }
-    auto result = static_cast<double>(sqrt(sum / (size + 1.0)));
+    auto result = static_cast<double>(sqrt(sum / (size - 1.0)));
     if (!isnan(result) && errorCheck == size && ok)
     {
         return result;
@@ -118,4 +118,87 @@ void FitData::SearchMinimum_RMS(ExperimentalData &obj, FitData::paramSet &bestPa
             }
         }
     }
+}
+
+std::vector<double> FitData::GenerateTheoreticalBand(int bandIndex, std::vector<double> &inputSpins, double iZero, double particlePotential, double beta, double gamma)
+{
+    std::vector<double> results;
+    auto V = particlePotential;
+    auto I0 = iZero;
+    double currentEnergy = -1.0;
+    for (auto id = 0; id < inputSpins.size(); ++id)
+    {
+        auto I = inputSpins.at(id);
+        switch (bandIndex)
+        {
+        case 1:
+            currentEnergy = EnergyFormulas::TSD1(I, V, I0, beta, gamma);
+            break;
+        case 2:
+            currentEnergy = EnergyFormulas::TSD2(I, V, I0, beta, gamma);
+            break;
+        case 3:
+            currentEnergy = EnergyFormulas::TSD3(I, V, I0, beta, gamma);
+            break;
+        case 4:
+            currentEnergy = EnergyFormulas::TSD4(I, V, I0, beta, gamma);
+            break;
+        }
+        if (currentEnergy != 6969 && currentEnergy >= 0)
+            results.emplace_back(currentEnergy);
+    }
+    return results;
+}
+
+void FitData::SearchRMS_SeparateBands(FitData::paramSet &bestParams, double beta, double gamma)
+{
+    double minValue_band1 = 987654321.0;
+    double minValue_band2 = 987654321.0;
+    double minValue_band3 = 987654321.0;
+    double minValue_band4 = 987654321.0;
+    FitData::paramLimits limits;
+    for (double I0 = limits.I0_left; I0 <= limits.I0_right; I0 += limits.I0_step)
+    {
+        for (double V = limits.V_left; V <= limits.V_right; V += limits.V_step)
+        {
+            std::vector<double> band1 = FitData::GenerateTheoreticalBand(1, ExperimentalData::spin1, I0, V, beta, gamma);
+            std::vector<double> band2 = FitData::GenerateTheoreticalBand(2, ExperimentalData::spin2, I0, V, beta, gamma);
+            std::vector<double> band3 = FitData::GenerateTheoreticalBand(3, ExperimentalData::spin3, I0, V, beta, gamma);
+            std::vector<double> band4 = FitData::GenerateTheoreticalBand(4, ExperimentalData::spin4, I0, V, beta, gamma);
+            auto RMS1 = FitData::RMS_Calculation(ExperimentalData::tsd1, band1);
+            auto RMS2 = FitData::RMS_Calculation(ExperimentalData::tsd2, band2);
+            auto RMS3 = FitData::RMS_Calculation(ExperimentalData::tsd3, band3);
+            auto RMS4 = FitData::RMS_Calculation(ExperimentalData::tsd4, band4);
+            if ((RMS1 != 6969 && RMS1 <= minValue_band1) && (RMS2 != 6969 && RMS2 <= minValue_band2) && (RMS3 != 6969 && RMS3 <= minValue_band3) && (RMS4 != 6969 && RMS4 <= minValue_band4))
+            {
+                minValue_band1 = RMS1;
+                minValue_band2 = RMS2;
+                minValue_band3 = RMS3;
+                minValue_band4 = RMS4;
+                bestParams.I0 = I0;
+                bestParams.V = V;
+                bestParams.E_RMS1 = minValue_band1;
+                bestParams.E_RMS2 = minValue_band2;
+                bestParams.E_RMS3 = minValue_band3;
+                bestParams.E_RMS4 = minValue_band4;
+            }
+        }
+    }
+}
+
+double FitData::AverageRMS(FitData::paramSet &params)
+{
+    //only work if the params are real
+    auto rms1 = params.E_RMS1;
+    auto rms2 = params.E_RMS2;
+    auto rms3 = params.E_RMS3;
+    auto rms4 = params.E_RMS4;
+    double avg = 6969;
+    if (rms1 != 6969 && rms2 != 6969 && rms3 != 6969 && rms4 != 6969)
+    {
+        avg = 0.25 * (rms1 + rms2 + rms3 + rms4);
+    }
+    if (avg != 6969)
+        return avg;
+    return 0;
 }

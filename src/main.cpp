@@ -18,10 +18,15 @@ int main()
     };
 
     auto startTime = std::chrono::high_resolution_clock::now();
-    FitData::SearchMinimum_RMS(*nucleus, bestParams, 0.38, 17);
+    // FitData::SearchMinimum_RMS(*nucleus, bestParams, 0.38, 17);
+    FitData::SearchRMS_SeparateBands(bestParams, 0.38, 17);
     auto endTime = std::chrono::high_resolution_clock::now();
-    std::cout
-        << bestParams.I0 << " " << bestParams.V << " " << bestParams.E_RMS << "\n";
+    std::cout << "PARAMETERS:"
+              << "\n";
+    std::cout << bestParams.I0 << " " << bestParams.V << "\n";
+    std::cout << "Separate RMS values: \n";
+    std::cout << bestParams.E_RMS1 << " " << bestParams.E_RMS2 << " " << bestParams.E_RMS3 << " " << bestParams.E_RMS4 << "\n";
     std::cout << "s= " << bestParams.I0 * bestParams.V << "\n";
+    std::cout << "E_RMS =" << FitData::AverageRMS(bestParams) << "\n";
     std::cout << "Process took... " << duration(startTime, endTime) << " s\n";
 }
