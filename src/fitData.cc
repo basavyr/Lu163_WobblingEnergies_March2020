@@ -202,3 +202,50 @@ double FitData::AverageRMS(FitData::paramSet &params)
         return avg;
     return 0;
 }
+
+void FitData::SearchRMS_SeparateBands_AdjustedBand(FitData::paramSet &bestParams, BandAdjuster &obj)
+{
+    double minValue_band1 = 987654321.0;
+    double minValue_band2 = 987654321.0;
+    double minValue_band3 = 987654321.0;
+    double minValue_band4 = 987654321.0;
+    FitData::paramLimits limits;
+    for (double I0 = limits.I0_left; I0 <= limits.I0_right; I0 += limits.I0_step)
+    {
+        for (double V = limits.V_left; V <= limits.V_right; V += limits.V_step)
+        {
+            std::vector<double> band1 = FitData::GenerateTheoreticalBand(1, ExperimentalData::spin1, I0, V, obj.beta, obj.gamma);
+            std::vector<double> band2 = FitData::GenerateTheoreticalBand(2, ExperimentalData::spin2, I0, V, obj.beta, obj.gamma);
+            std::vector<double> band3 = FitData::GenerateTheoreticalBand(3, ExperimentalData::spin3, I0, V, obj.beta, obj.gamma);
+            std::vector<double> band4 = FitData::GenerateTheoreticalBand(4, ExperimentalData::spin4, I0, V, obj.beta, obj.gamma);
+            auto RMS1 = FitData::RMS_Calculation(ExperimentalData::tsd1, band1);
+            auto RMS2 = FitData::RMS_Calculation(ExperimentalData::tsd2, band2);
+            auto RMS3 = FitData::RMS_Calculation(ExperimentalData::tsd3, band3);
+            //**************************
+            //**************************
+            //instead of the old exp data, method selects the new (Adjusted) experimental data set
+            auto RMS4 = FitData::RMS_Calculation(obj.ExpNew, band4);
+            // std::cout << I0 << " " << V << " " << RMS4 << "\n";
+            //**************************
+            //**************************
+            if ((RMS1 != 6969 && RMS1 <= minValue_band1) && (RMS2 != 6969 && RMS2 <= minValue_band2) && (RMS3 != 6969 && RMS3 <= minValue_band3) && (RMS4 != 6969 && RMS4 <= minValue_band4))
+            {
+                minValue_band1 = RMS1;
+                minValue_band2 = RMS2;
+                minValue_band3 = RMS3;
+                minValue_band4 = RMS4;
+                bestParams.I0 = I0;
+                bestParams.V = V;
+                bestParams.E_RMS1 = minValue_band1;
+                bestParams.E_RMS2 = minValue_band2;
+                bestParams.E_RMS3 = minValue_band3;
+                bestParams.E_RMS4 = minValue_band4;
+            }
+        }
+    }
+}
+
+void FitData::SearchRMS_AdjustedBand(FitData::paramSet &bestParams,BandAdjuster &obj)
+{
+    
+}

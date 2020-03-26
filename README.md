@@ -41,3 +41,5 @@ Separate RMS values:
 s= 1.58289  
 E_RMS =0.563304  
 Process took... 6419.45 s  
+
+## Construct the band adjuster fit for the fourth excited band

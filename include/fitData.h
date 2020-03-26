@@ -5,7 +5,8 @@
 #include <iostream>
 #include <cmath>
 #include "../include/expData.h"
-#include "energyFormulas.h"
+#include "../include/energyFormulas.h"
+#include "../include/bandAdjuster.h"
 
 class FitData
 {
@@ -16,12 +17,12 @@ public:
 public:
     struct paramLimits
     {
-        const double I0_left = 50;
-        const double I0_right = 52;
-        const double I0_step = 0.001;
+        const double I0_left = 48;
+        const double I0_right = 55;
+        const double I0_step = 0.01;
         const double V_left = 0.0001;
         const double V_right = 3;
-        const double V_step = 0.0001;
+        const double V_step = 0.001;
     };
     struct paramSet
     {
@@ -43,6 +44,10 @@ public:
     //generates the theoretical band separately (based on each of the experimental ones)
     static std::vector<double> GenerateTheoreticalBand(int bandIndex, std::vector<double> &inputSpins, double iZero, double particlePotential, double beta, double gamma);
     static double AverageRMS(FitData::paramSet &params);
+
+public:
+    static void SearchRMS_SeparateBands_AdjustedBand(FitData::paramSet &bestParams, BandAdjuster &obj);
+    static void SearchRMS_AdjustedBand(FitData::paramSet &bestParams, BandAdjuster &obj);
 };
 
 #endif // FITDATA_HH
